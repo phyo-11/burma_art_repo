@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -94,18 +93,18 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': os.getenv('DB_PASSWORD_YO'),
-        'HOST': os.getenv('DATABASE_URL'),
-        'PORT': '5432',
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': 'autorack.proxy.rlwy.net',
+        'PORT': '44387', 
     }
 }
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_PUBLIC_URL'),
-        conn_max_age=600,  # Optional: keeps connections alive
-    )
-}
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=os.getenv('DATABASE_PUBLIC_URL'),
+#         conn_max_age=600,  # Optional: keeps connections alive
+#     )
+# }
 
 
 

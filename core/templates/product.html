@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <br>
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-6">
+              <center>
+              <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
+              </center>
+            </div>
+            <div class="col-md-6">
+                <div class="card-body">
+                    <center>
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text">{{ product.width }} x {{ product.height }} cm</p>
+                        <p class="card-text">$ {{ product.price }}</p>
+                        <p class="card-text">{{ product.weight }} kg</p>
+                        <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+                        <button class="btn btn-secondary" type="button" value="{{ product.id }}" id="add-cart">Add to Cart</button>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).on('click', '#add-cart', function(e){
+    e.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url: '{% url 'cart_add' %}',
+        data: {
+            product_id: $('#add-cart').val(),
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+
+        success: function(json){
+            //console.log(json)
+            document.getElementById('cart_quantity').textContent = json.qty
+            location.reload();
+        },
+        
+        error: function(xhr, errmsg, err){
+            //console.log("error")  
+        }
+    });
+})
+</script>
+
+{% endblock %}

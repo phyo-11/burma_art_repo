@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block content %}
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Processing Order</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">
+                        temporary
+                    </p>
+                </div>
+            </div>
+        </header>
+        <br><br>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <center>
+                                Order Summary
+                            </center>
+                        </div>
+                        <div class="card-body">
+                            {% for product in cart_products %}
+                            <br>
+                            <strong>{{ product.name }}</strong>
+                            <br>
+                            <small>Quantity - <span class='product-qty'>{{ qty }}</span></small>
+                            <br>
+                            <small>Price - $ {{ product.price }}</small>
+                            <br>
+                            {% endfor %}
+                            <br>
+                            <strong>Total Quantity - <span id="total-qty">0</span></strong>
+                            <br>
+                            <strong>Total Amount - $ {{ totals  }}</strong>
+                            <br><br>
+                            <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-secondary">Update Items</a>
+                        </div>
+                    </div>
+                    <br>
+                    <div class='card'>
+                        <div class="card-header">
+                            <center>
+                                Shipping Information
+                            </center>
+                        </div>
+                        <div class="card-body">                
+                            Name - {{ shipping_info.shipping_full_name }}
+                            <br><br> 
+                            Phone - {{ shipping_info.shipping_phone }}<br><br>
+                            Email - {{ shipping_info.shipping_email }}<<br><br>
+                            Address1 - {{ shipping_info.shipping_address1 }}
+                            <br><br>
+                            Address2 - {{ shipping_info.shipping_address2 }}
+                            <br><br>
+                            Zipcode - {{ shipping_info.shipping_zipcode }}<br><br>
+                            City - {{ shipping_info.shipping_city }}<br><br>
+                            State - {{ shipping_info.shipping_state }}<br><br>
+                            Country - {{ shipping_info.shipping_country }}
+                            <br><br>
+                            <a href="{% url 'checkout' %}" class="btn btn-sm btn-secondary" >Update Shipping</a>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class='card'>
+                        <div class="card-header">
+                            <center>
+                                Billing Information
+                            </center>
+                        </div>
+                        <div class="card-body">
+                            <form method='POST' action="{% url 'process_order' %}">
+                            {% csrf_token %}   
+                            {{ billing_form.as_p }}
+                        </div>
+                    </div>
+                    <br>
+
+
+
+                    <button type='submit' class="btn btn-sm btn-secondary">
+                    Pay Now</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+<script>
+    // Calculate the total quantity
+    document.addEventListener("DOMContentLoaded", function () {
+        let totalQuantity = 0;
+        const quantities = document.querySelectorAll(".product-qty");
+        
+        quantities.forEach((qtyElement) => {
+            totalQuantity += parseInt(qtyElement.textContent, 10);
+        });
+
+        // Update the total quantity in the DOM
+        document.getElementById("total-qty").textContent = totalQuantity;
+    });
+</script>
+
+
+
+{% endblock %}
+

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Shopping Cart</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">View Your Cart</p>
+                </div>
+            </div>
+        </header>
+<br><br>
+
+        <div class="container">
+            {% if cart_products %}
+            {% for product in cart_products %}
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-6">
+                            <center>
+                                <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
+                            </center>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <center>
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text">{{ product.description }}</p>
+                                    <p class="card-text">{{ product.width }} x {{ product.height }} cm</p>
+                                    <p class="card-text">$ {{ product.price }}</p>
+                                    <p class="card-text">{{ product.weight }} kg</p>
+                                    <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+                                    <button type="button" data-index="{{product.id}}" class="btn btn-danger delete-product">
+                                        Remove                                        
+                                    </button>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </div> <br>
+            {% endfor %}
+            <div align="right">
+                <h3>Total: {{ totals }}</h3>
+                <a href="{% url 'checkout' %}" class="btn btn-success">Checkout</a>    
+            </div>
+            
+
+            {% else %}
+            There is nothing in your cart.
+            {% endif %}
+            <br><br><br>
+        </div>
+
+
+<script>
+// Delete Item From Cart
+    $(document).on('click', '.delete-product', function(e){
+        e.preventDefault();
+        //Grab the product id
+        //var productid = $(this).data('index');
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'cart_delete' %}',
+            data: {
+                product_id: $(this).data('index'),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(json){
+                location.reload();
+            },
+            error: function(xhr, errmsg, err){
+
+            }
+        });
+    })
+</script>
+{% endblock %}

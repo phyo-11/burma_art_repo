@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block content %}
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Checkout</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Review Your Order</p>
+                </div>
+            </div>
+        </header>
+        <br><br>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <center>
+                                Order Summary
+                            </center>
+                        </div>
+                        <div class="card-body">
+                            {% for product in cart_products %}
+                            <br>
+                            <strong>{{ product.name }}</strong>
+                            <br>
+                            <small>Quantity - <span class='product-qty'>{{ qty }}</span></small>
+                            <br>
+                            <small>Price - $ {{ product.price }}</small>
+                            <br>
+                            {% endfor %}
+                            <br><br>
+                            <strong>Total Quantity - <span id="total-qty">0</span></strong>
+                            <br>
+                            <strong>Total Amount - $ {{ totals  }}</strong>
+                            <br><br>
+                            <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-secondary">Update Items</a>
+                        </div>
+                    </div>
+                    <br>
+                    <div class='card'>
+                        <div class="card-header">
+                            <center>
+                                Shipping Information
+                            </center>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="{% url 'billing_info' %}">
+                                {% csrf_token %}
+                                {{ shipping_form.as_p }}    
+                                
+                            
+                            
+                        </div>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-sm btn-secondary">
+                    Continue To Billing</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+<script>
+    // Calculate the total quantity
+    document.addEventListener("DOMContentLoaded", function () {
+        let totalQuantity = 0;
+        const quantities = document.querySelectorAll(".product-qty");
+        
+        quantities.forEach((qtyElement) => {
+            totalQuantity += parseInt(qtyElement.textContent, 10);
+        });
+
+        // Update the total quantity in the DOM
+        document.getElementById("total-qty").textContent = totalQuantity;
+    });
+</script>
+
+
+{% endblock %}
+

@@ -5,24 +5,25 @@
         <header class="bg-dark py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Register</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+                    <h1 class="display-4 fw-bolder">Join Our Artistic Community</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Create an account to enjoy faster checkout.</p>
                 </div>
             </div>
         </header>
 
         <div class="container">
             <div class="row">
-                    <div class="col-md-6 offset-md-3">
-                        <br><br>
-                        <form method="POST" action="{% url 'register' %}">
-                          {% csrf_token %}
-                            {{ form.as_p }}
-                            <br><br>
-                            <button type="submit" class="btn btn-secondary">Register</button>
-                        </form>
-                        <br><br>
-                    </div>
+                <div class="col-md-6 offset-md-3">
+                    <br><br><br>
+                    <form method="POST" action="{% url 'register' %}">
+                      {% csrf_token %}
+                        {{ form.as_p }}
+                        <center>
+                            <button type="submit" class="btn btn-outline-dark mt-4">Register</button>
+                        </center>
+                    </form>
+                    <br><br><br>
+                </div>
             </div>
         </div>
 {% endblock %}

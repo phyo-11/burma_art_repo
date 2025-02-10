@@ -4,23 +4,33 @@
         <header class="bg-dark py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Category Summary</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+                    <h1 class="display-4 fw-bolder">Explore Our Gallery</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Discover curated collections of unique art pieces</p>
                 </div>
             </div>
         </header>
         <br><br><br>
 
-        <div class="container">
-            <div class="row">
-                <center>
-                    <div class="col-8">
-                        {% for category in categories %}
-                        <h3><a href="{% url 'category' category %}">{{ category }}</a></h3>
-                        {% endfor %}
+        <!-- Gallery Categories -->
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                {% for category in categories %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow">
+                            <div class="card-body text-center">
+                                <h3 class="card-title my-5">{{ category.name }}</h3>
+                                
+                                <!-- Display related image -->
+                                <img src="{{ category.image_url }}" alt="{{ category.name }}" class='card-img-top'>
+
+                                <!-- Category Link -->
+                                <a href="{% url 'category' category.name %}" class="btn btn-outline-dark mt-5">
+                                    View {{ category.name }}
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                </center>
+                {% endfor %}
             </div>
         </div>
-
 {% endblock %}

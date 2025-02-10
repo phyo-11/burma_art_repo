@@ -12,6 +12,7 @@ from django.db.models import Q
 import json
 from cart.cart import Cart
 import os
+from django.utils.text import slugify
 
 def search(request):
 
@@ -97,19 +98,46 @@ def update_user(request):
 
 
 def category_summary(request):
-	categories = Category.objects.all()
-	return render(request, 'category_summary.html',{'categories':categories})
+    categories = Category.objects.all()
+
+    # Map category names to image paths
+    category_images = {
+        "Gem Painting": "/media/uploads/product/mount_fuji.jpeg",
+        "Oil Painting": "/media/uploads/product/oil2.jpeg",
+        "Watercolor Painting": "/media/uploads/product/water3.jpeg",
+    }
+
+    # Add image URL to each category object dynamically
+    for category in categories:
+    	category.image_url = category_images.get(category.name)
+
+
+    return render(request, 'category_summary.html', {'categories': categories})
+
 
 
 def category(request, foo):
-	
-	try:
-		category = Category.objects.get(name=foo)
-		products = Product.objects.filter(category=category)
-		return render(request, 'category.html', {'products':products, 'category':category})
-	except:
-		messages.error(request,("That category doesn't exist!"))
-		return redirect('home')
+    # Manually map category names to subheadings
+    category_subheadings = {
+        "Gem Painting": "Brilliant Creations, Crafted with Gems",
+        "Oil Painting": "Timeless Beauty in Every Stroke",
+        "Watercolor Painting": "Soft Hues, Endless Inspiration",
+    }
+
+    try:
+        category = Category.objects.get(name=foo)
+        products = Product.objects.filter(category=category)
+        subheading = category_subheadings.get(category.name, "Explore Our Unique Collection")
+
+        return render(request, 'category.html', {
+            'products': products,
+            'category': category,
+            'subheading': subheading
+        })
+    except Category.DoesNotExist:
+        messages.error(request, "That category doesn't exist!")
+        return redirect('home')
+
 
 
 def product(request,pk):
@@ -122,6 +150,9 @@ def home(request):
 
 def about(request):
 	return render(request, 'about.html', {})
+
+def contact(request):
+	return render(request, 'contact.html', {})
 
 def login_user(request):
 	if request.method == 'POST':

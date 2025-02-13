@@ -4,52 +4,50 @@
         <header class="bg-dark py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Shopping Cart</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">View Your Cart</p>
+                    <h1 class="display-4 fw-bolder">Your Cart, Your Choices</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Review your selected items before checkout</p>
                 </div>
             </div>
         </header>
-<br><br>
-
-        <div class="container">
-            {% if cart_products %}
-            {% for product in cart_products %}
-                <div class="card mb-3">
-                    <div class="row g-0">
-                        <div class="col-md-6">
-                            <center>
-                                <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
-                            </center>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card-body">
-                                <center>
-                                    <h5 class="card-title">{{ product.name }}</h5>
-                                    <p class="card-text">{{ product.description }}</p>
-                                    <p class="card-text">{{ product.width }} x {{ product.height }} cm</p>
-                                    <p class="card-text">$ {{ product.price }}</p>
-                                    <p class="card-text">{{ product.weight }} kg</p>
-                                    <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
-                                    <button type="button" data-index="{{product.id}}" class="btn btn-danger delete-product">
-                                        Remove                                        
-                                    </button>
-                                </center>
-                            </div>
+        
+        <br><br>
+<div class="container py-5">
+    {% if cart_products %}
+    <div class="row">
+        {% for product in cart_products %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm border-light">
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text"><strong>Dimensions:</strong> {{ product.width }} x {{ product.height }} cm</p>
+                        <p class="card-text"><strong>Price:</strong> ${{ product.price }}</p>
+                        <p class="card-text"><strong>Weight:</strong> {{ product.weight }} kg</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-sm">Back</a>
+                            <button type="button" data-index="{{product.id}}" class="btn btn-danger btn-sm delete-product">
+                                Remove
+                            </button>
                         </div>
                     </div>
-                </div> <br>
-            {% endfor %}
-            <div align="right">
-                <h3>Total: {{ totals }}</h3>
-                <a href="{% url 'checkout' %}" class="btn btn-success">Checkout</a>    
+                </div>
             </div>
-            
+        {% endfor %}
+    </div>
 
-            {% else %}
-            There is nothing in your cart.
-            {% endif %}
-            <br><br><br>
-        </div>
+    <div class="d-flex justify-content-end mt-4">
+        <h3 class="me-3">Total: ${{ totals }}</h3>
+        <a href="{% url 'checkout' %}" class="btn btn-success btn-lg">Proceed to Checkout</a>
+    </div>
+    {% else %}
+    <div class="text-center">
+        <p class="lead text-muted">Your cart is currently empty. Start shopping now!</p>
+    </div>
+    {% endif %}
+</div>
+
+        <br><br>
 
 
 <script>

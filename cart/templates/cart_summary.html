@@ -9,46 +9,46 @@
                 </div>
             </div>
         </header>
-        
+
         <br><br>
-<div class="container py-5">
-    {% if cart_products %}
-    <div class="row">
-        {% for product in cart_products %}
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card shadow-sm border-light">
-                    <img src="{{ product.image.url }}" class="card-img-top" alt="Product Image">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ product.name }}</h5>
-                        <p class="card-text">{{ product.description }}</p>
-                        <p class="card-text"><strong>Dimensions:</strong> {{ product.width }} x {{ product.height }} cm</p>
-                        <p class="card-text"><strong>Price:</strong> ${{ product.price }}</p>
-                        <p class="card-text"><strong>Weight:</strong> {{ product.weight }} kg</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-sm">Back</a>
-                            <button type="button" data-index="{{product.id}}" class="btn btn-danger btn-sm delete-product">
-                                Remove
-                            </button>
+        <div class="container py-5">
+            {% if cart_products %}
+            <div class="row">
+                {% for product in cart_products %}
+                    <div class="col-12 col-md-6 mb-4">
+                        <div class="card shadow-sm border-light">
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="Product Image">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                                <p class="card-text">{{ product.description }}</p>
+                                <p class="card-text"><strong>Dimensions:</strong> {{ product.width }} x {{ product.height }} cm</p>
+                                <p class="card-text"><strong>Price:</strong> ${{ product.price }}</p>
+                                <p class="card-text"><strong>Weight:</strong> {{ product.weight }} kg</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a href="{% url 'home' %}" class="btn btn-outline-primary btn-sm">Back to Shop</a>
+                                    <button type="button" data-index="{{product.id}}" class="btn btn-danger btn-sm delete-product">
+                                        Remove Item
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                {% endfor %}
+            </div>
+
+            <div class="d-flex justify-content-end mt-4">
+                <div class="total-section">
+                    <strong class="fs-4">Total: ${{ totals }}</strong>
+                    <a href="{% url 'checkout' %}" class="btn btn-success btn-lg ms-3">Proceed to Checkout</a>
                 </div>
             </div>
-        {% endfor %}
-    </div>
-
-    <div class="d-flex justify-content-end mt-4">
-        <h3 class="me-3">Total: ${{ totals }}</h3>
-        <a href="{% url 'checkout' %}" class="btn btn-success btn-lg">Proceed to Checkout</a>
-    </div>
-    {% else %}
-    <div class="text-center">
-        <p class="lead text-muted">Your cart is currently empty. Start shopping now!</p>
-    </div>
-    {% endif %}
-</div>
-
+            {% else %}
+            <div class="text-center">
+                <p class="lead text-muted">Your cart is currently empty. Start shopping now!</p>
+            </div>
+            {% endif %}
+        </div>
         <br><br>
-
 
 <script>
 // Delete Item From Cart

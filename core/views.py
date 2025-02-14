@@ -103,8 +103,8 @@ def category_summary(request):
     # Map category names to image paths
     category_images = {
         "Gem Painting": "/media/uploads/product/mount_fuji.jpeg",
-        "Oil Painting": "/media/uploads/product/oil2.jpeg",
-        "Watercolor Painting": "/media/uploads/product/water3.jpeg",
+        "Oil Painting": "/media/uploads/product/oc1.jpeg",
+        "Watercolor Painting": "/media/uploads/product/wc1.jpeg",
     }
 
     # Add image URL to each category object dynamically
